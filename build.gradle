@@ -1,0 +1,62 @@
+buildscript {
+    ext {
+        springBootVersion = '2.4.5'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'my.assignment'
+version = '1.0'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencyManagement {
+    dependencies {
+        dependency 'org.assertj:assertj-core:3.6.2'
+        dependency 'org.apache.commons:commons-lang3:3.0'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // mapper
+    implementation group: 'net.rakugakibox.spring.boot', name: 'orika-spring-boot-starter', version: '1.9.0'
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.apache.commons:commons-lang3:3.11'
+    implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.10.5'
+
+    // h2
+    implementation 'com.h2database:h2'
+
+    // resteasy
+    compile 'org.jboss.resteasy:resteasy-spring-boot-starter:4.9.1.Final'
+
+    // swagger
+    //compile 'io.swagger:swagger-jersey2-jaxrs:1.6.2'
+    compile 'io.swagger:swagger-annotations:1.6.3'
+
+    // test
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile("org.assertj:assertj-core")
+}
+
