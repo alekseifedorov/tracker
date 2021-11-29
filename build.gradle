@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.4.5'
+        springBootVersion = '2.5.6'
     }
     repositories {
         mavenCentral()
@@ -26,6 +26,11 @@ dependencyManagement {
     dependencies {
         dependency 'org.assertj:assertj-core:3.6.2'
         dependency 'org.apache.commons:commons-lang3:3.0'
+        dependency 'javax.ws.rs:javax.ws.rs-api:2.1'
+        imports {
+
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+        }
     }
 }
 
@@ -34,6 +39,7 @@ test {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // mapper
@@ -41,6 +47,7 @@ dependencies {
 
     // lombok
     compileOnly 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.apache.commons:commons-lang3:3.11'
     implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.10.5'
@@ -51,9 +58,12 @@ dependencies {
     // resteasy
     compile 'org.jboss.resteasy:resteasy-spring-boot-starter:4.9.1.Final'
 
-    // swagger
-    //compile 'io.swagger:swagger-jersey2-jaxrs:1.6.2'
     compile 'io.swagger:swagger-annotations:1.6.3'
+
+    // swagger
+    compile 'io.swagger:swagger-jaxrs:1.6.2'
+
+    compile 'javax.ws.rs:javax.ws.rs-api:2.1'
 
     // test
     testCompile 'org.springframework.boot:spring-boot-starter-test'

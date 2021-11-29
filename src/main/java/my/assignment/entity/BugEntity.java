@@ -32,7 +32,7 @@ public class BugEntity {
     @Enumerated(EnumType.STRING)
     private BugPriority priority;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "developer_id")
     private DeveloperEntity developer;
 

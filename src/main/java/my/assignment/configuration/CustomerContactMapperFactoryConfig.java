@@ -16,17 +16,14 @@ public class CustomerContactMapperFactoryConfig implements OrikaMapperFactoryCon
     @Override
     public void configure(MapperFactory mapperFactory) {
         mapperFactory.classMap(Bug.class, BugEntity.class)
-                .mapNulls(false)
                 .byDefault()
                 .register();
 
         mapperFactory.classMap(Story.class, StoryEntity.class)
-                .mapNulls(false)
                 .byDefault()
                 .register();
 
         mapperFactory.classMap(Developer.class, DeveloperEntity.class)
-                .mapNulls(false)
                 .byDefault()
                 .register();
     }

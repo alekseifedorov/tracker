@@ -20,6 +20,7 @@ public class Story {
 
     private Integer points;
 
+    @ToString.Exclude
     private Developer developer;
 
     private ZonedDateTime createdDate;

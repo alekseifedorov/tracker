@@ -23,9 +23,9 @@ public class DeveloperEntity {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "developer", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "developer")
     private List<StoryEntity> stories;
 
-    @OneToMany(mappedBy = "developer", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "developer")
     private List<BugEntity> bugs;
 }

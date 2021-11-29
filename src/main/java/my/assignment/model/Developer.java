@@ -1,5 +1,6 @@
 package my.assignment.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class Developer {
 
     private String name;
 
+    @Builder.Default
+    @JsonIgnore
     private List<Story> stories = new ArrayList<>();
 
     private int points;

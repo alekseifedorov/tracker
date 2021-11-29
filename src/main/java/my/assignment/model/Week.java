@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -12,6 +13,6 @@ import java.util.List;
 @Builder
 @Data
 public class Week {
-    private List<Story> stories;
-
+    @Builder.Default
+    private List<StoryPart> stories = new ArrayList<>();
 }

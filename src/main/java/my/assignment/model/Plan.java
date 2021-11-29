@@ -11,5 +11,6 @@ import java.util.List;
 @Data
 public class Plan {
 
+    @Builder.Default
     private List<Week> weeks = new ArrayList<>();
 }

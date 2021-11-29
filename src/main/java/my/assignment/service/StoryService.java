@@ -2,8 +2,10 @@ package my.assignment.service;
 
 import my.assignment.model.Story;
 
-public interface StoryService {
-    Story createOrUpdateStory(Story title);
+import java.util.UUID;
 
-    void deleteStory(String title);
+public interface StoryService {
+    Story createOrUpdateStory(Story story);
+
+    void deleteStory(UUID id);
 }
