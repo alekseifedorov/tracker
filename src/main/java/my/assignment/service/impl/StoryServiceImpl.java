@@ -9,6 +9,7 @@ import my.assignment.repository.StoryRepository;
 import my.assignment.service.StoryService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -31,5 +32,11 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public void deleteStory(UUID id) {
         storyRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Story> getAll() {
+        var stories = storyRepository.findAll();
+        return mapperFacade.mapAsList(stories, Story.class);
     }
 }

@@ -9,6 +9,7 @@ import my.assignment.repository.BugRepository;
 import my.assignment.service.BugService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -30,5 +31,10 @@ public class BugServiceImpl implements BugService {
     @Override
     public void deleteBug(UUID id) {
         bugRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Bug> getAll() {
+        return mapperFacade.mapAsList(bugRepository.findAll(), Bug.class);
     }
 }

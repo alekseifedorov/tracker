@@ -32,7 +32,7 @@ public class StoryEntity {
 
     private Integer points;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "developer_id")
     private DeveloperEntity developer;
 

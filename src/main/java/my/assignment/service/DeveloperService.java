@@ -2,6 +2,7 @@ package my.assignment.service;
 
 import my.assignment.model.Developer;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface DeveloperService {
@@ -12,4 +13,6 @@ public interface DeveloperService {
     void assignToBug(UUID developerId, UUID bugId);
 
     void assignToStory(UUID developerId, UUID storyId);
+
+    List<Developer> getAll();
 }

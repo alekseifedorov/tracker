@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.assignment.model.Developer;
 import my.assignment.model.Story;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,20 @@ public class ApplicationInitService implements ApplicationListener<ApplicationRe
     private final DeveloperService developerService;
     private final StoryService storyService;
 
+    @Value("${init-environment:false}")
+    private boolean initEnvironment;
+
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         initData();
     }
 
     public void initData() {
-        log.info("Data initialization starting...");
-        doInitData();
-        log.info("Data initialization has completed successfully!");
+        if (initEnvironment) {
+            log.info("Data initialization starting...");
+            doInitData();
+            log.info("Data initialization has completed successfully!");
+        }
     }
 
     private void doInitData() {

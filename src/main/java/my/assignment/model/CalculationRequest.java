@@ -8,7 +8,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Data
-@EqualsAndHashCode
 public class CalculationRequest {
     private List<Story> stories;
     private List<Developer> developers;

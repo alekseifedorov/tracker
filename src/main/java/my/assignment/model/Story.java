@@ -9,6 +9,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Data
+@EqualsAndHashCode(of = "id")
 public class Story {
     private UUID id;
 

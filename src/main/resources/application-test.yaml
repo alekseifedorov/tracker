@@ -15,4 +15,4 @@ spring:
     driver-class-name: org.h2.Driver
     platform: org.hibernate.dialect.H2Dialect
 
-init-environment: true
+init-environment: false

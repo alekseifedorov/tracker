@@ -1,6 +1,5 @@
 package my.assignment.service.impl;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.assignment.model.*;
@@ -13,13 +12,8 @@ import java.util.stream.IntStream;
 
 @Slf4j
 @NoArgsConstructor
-@AllArgsConstructor
 @Service
 public class CalculatorEngineImpl implements CalculatorEngine {
-
-    // From spec: As long as no new stories are created, the distribution should remain the same.
-    // It might be stored, for example, in Redis
-    private Map<CalculationRequest, Plan> previousResults = new HashMap<>();
 
     public static final int MAX_STORY_POINTS_PER_WEEK = 10;
 
@@ -27,10 +21,6 @@ public class CalculatorEngineImpl implements CalculatorEngine {
     public Plan calculatePlan(CalculationRequest request) {
         if (CollectionUtils.isEmpty(request.getDevelopers()) || CollectionUtils.isEmpty(request.getStories())) {
             throw new IllegalArgumentException("List of stories or developers must not be empty");
-        }
-
-        if (previousResults.containsKey(request)) {
-            return previousResults.get(request);
         }
 
         var developers = new ArrayList<>(request.getDevelopers());

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -58,5 +59,12 @@ public class DeveloperServiceImpl implements DeveloperService {
         var story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new EntityNotFoundException("Story not found [" + storyId + "]"));
         story.setDeveloper(developer);
+    }
+
+    @Override
+    @Transactional
+    public List<Developer> getAll() {
+        List<DeveloperEntity> allWithStories = developerRepository.findAllWithStories();
+        return mapperFacade.mapAsList(allWithStories, Developer.class);
     }
 }

@@ -1,48 +1,89 @@
 package my.assignment;
 
-import my.assignment.model.Bug;
+import my.assignment.model.Developer;
+import my.assignment.model.Story;
+import my.assignment.repository.BugRepository;
+import my.assignment.repository.DeveloperRepository;
+import my.assignment.repository.StoryRepository;
+import my.assignment.service.DeveloperService;
 import my.assignment.service.IssueTrackerService;
+import my.assignment.service.StoryService;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
-@SpringBootTest(classes = TestConfig.class)
+@SpringBootTest
 class IssueTrackerServiceIntegrationTest {
 
     @Autowired
     private IssueTrackerService issueTrackerService;
 
+    @Autowired
+    private DeveloperService developerService;
+
+    @Autowired
+    private StoryService storyService;
+
+    @Autowired
+    private DeveloperRepository developerRepository;
+
+    @Autowired
+    private StoryRepository storyRepository;
+
+    @Autowired
+    private BugRepository bugRepository;
+
+    @BeforeEach
+    void init() {
+        initDb();
+    }
+
     @AfterEach
     void cleanUp() {
+        storyRepository.deleteAll();
+        bugRepository.deleteAll();
+        developerRepository.deleteAll();
     }
 
     @Test
-    void shouldCreateSynonyms() {
-//        issueTrackerService.createOrUpdateEntry(Bug.builder().key("dictionary")
-//                .value("Woerterbuch").build());
-//        issueTrackerService.createOrUpdateEntry(Bug.builder().key("encyclopaedia")
-//                .value("Enzyklopaedie").build());
-//        issueTrackerService.createOrUpdateEntry(Bug.builder().key("lexicon")
-//                .value("Lexicon").build());
-//        Bug bug = issueTrackerService.getEntry("dictionary");
-//
-//        Set<String> synonyms = new HashSet<>();
-//        synonyms.add("lexicon");
-//        synonyms.add("encyclopaedia");
-//        bug.setSynonyms(synonyms);
-//        issueTrackerService.createOrUpdateEntry(bug);
-//
-//        assertThat(issueTrackerService.getEntry("dictionary").getValue()).isEqualTo("Woerterbuch");
-//        assertThat(issueTrackerService.getEntry("encyclopaedia").getSynonyms())
-//                .contains("dictionary");
+    void shouldCalculatePlan() {
+        var plan = issueTrackerService.calculatePlan();
+
+        assertThat(plan).isNotNull();
+        assertThat(plan.getWeeks()).hasSize(2);
+        assertThat(plan.getWeeks().get(0).getStories()).hasSize(3);
+        assertThat(plan.getWeeks().get(1).getStories()).hasSize(1);
+
+        assertThat(storyService.getAll()).extracting(Story::getDeveloper).isNotEmpty();
+        assertThat(developerService.getAll()).extracting(Developer::getStories).isNotEmpty();
+    }
+
+    private void initDb() {
+        developerService.createOrUpdateDeveloper(Developer.builder().name("John Doe").build());
+        developerService.createOrUpdateDeveloper(Developer.builder().name("Bilbo Baggings").build());
+
+        storyService.createOrUpdateStory(Story.builder()
+                .title("5 points story")
+                .points(5)
+                .description("5 points story")
+                .build());
+
+        storyService.createOrUpdateStory(Story.builder()
+                .title("7 points story")
+                .points(7)
+                .description("7 points story")
+                .build());
+
+        storyService.createOrUpdateStory(Story.builder()
+                .title("12 points story")
+                .points(12)
+                .description("12 points story")
+                .build());
     }
 }
