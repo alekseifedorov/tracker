@@ -21,8 +21,9 @@
        The Swagger 2.0 specification of the service can be found on http://localhost:8080/api/v1/swagger.json
        
     The algorithm to calculate the plan is following:
-    - Take the next story from the list of stories
-      - Find the first developer with a minimal load a
+    a. Take the next story from the list of stories
+    b. Find the first developer with the minimal load and assign the story to this developer
+    c. Go to the first step 
    
 2. How to build
 
@@ -69,4 +70,7 @@
 
     - Delete a bug
       curl --location --request DELETE "http://localhost:8080/api/v1/issue-tracker/bug/{uuid}" 
+      
+    - Assign a bug to a developer
+      curl --location --request GET "http://localhost:8080/api/v1/issue-tracker/developer/{developerId}/bug/{bugId}"
 

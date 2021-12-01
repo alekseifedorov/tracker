@@ -1,6 +1,7 @@
 package my.assignment;
 
 import my.assignment.model.Developer;
+import my.assignment.model.ShortDeveloper;
 import my.assignment.model.Story;
 import my.assignment.repository.BugRepository;
 import my.assignment.repository.DeveloperRepository;
@@ -61,7 +62,7 @@ class IssueTrackerServiceIntegrationTest {
         assertThat(plan.getWeeks().get(1).getStories()).hasSize(1);
 
         assertThat(storyService.getAll()).extracting(Story::getDeveloper).isNotEmpty();
-        assertThat(developerService.getAll()).extracting(Developer::getStories).isNotEmpty();
+        assertThat(developerService.getAll()).extracting(ShortDeveloper::getStories).isNotEmpty();
     }
 
     private void initDb() {
