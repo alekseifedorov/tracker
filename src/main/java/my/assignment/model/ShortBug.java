@@ -1,6 +1,9 @@
 package my.assignment.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import my.assignment.entity.enumeration.BugPriority;
 import my.assignment.entity.enumeration.BugStatus;
 
@@ -11,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Data
-public class Bug {
+public class ShortBug {
 
     private UUID id;
 
@@ -22,8 +25,6 @@ public class Bug {
     private BugStatus status;
 
     private BugPriority priority;
-
-    private Developer developer;
 
     private ZonedDateTime createdDate;
 }

@@ -1,6 +1,7 @@
 package my.assignment.service;
 
 import my.assignment.model.Developer;
+import my.assignment.model.ShortDeveloper;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,5 +15,5 @@ public interface DeveloperService {
 
     void assignToStory(UUID developerId, UUID storyId);
 
-    List<Developer> getAll();
+    List<ShortDeveloper> getAll();
 }

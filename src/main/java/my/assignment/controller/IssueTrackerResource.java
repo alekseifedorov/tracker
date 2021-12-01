@@ -2,10 +2,7 @@ package my.assignment.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import my.assignment.model.Bug;
-import my.assignment.model.Developer;
-import my.assignment.model.Plan;
-import my.assignment.model.Story;
+import my.assignment.model.*;
 import my.assignment.service.BugService;
 import my.assignment.service.DeveloperService;
 import my.assignment.service.IssueTrackerService;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -58,6 +56,14 @@ public class IssueTrackerResource {
         bugService.deleteBug(id);
     }
 
+    @GET
+    @Path("/bug")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "List all existing bugs")
+    public List<Bug> findAllBugs() {
+        return bugService.getAll();
+    }
+
     @POST
     @Path("/story")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -74,6 +80,14 @@ public class IssueTrackerResource {
         storyService.deleteStory(id);
     }
 
+    @GET
+    @Path("/story")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "List all existing stories")
+    public List<Story> findAllStories() {
+        return storyService.getAll();
+    }
+
     @POST
     @Path("/developer")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -88,5 +102,20 @@ public class IssueTrackerResource {
     @ApiOperation(value = "Delete a developer")
     public void delete(@PathParam("id") UUID id) {
         developerService.deleteDeveloper(id);
+    }
+
+    @GET
+    @Path("/developer")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "List all existing developers")
+    public List<ShortDeveloper> findAllDevelopers() {
+        return developerService.getAll();
+    }
+
+    @GET
+    @Path("/developer/{developerId}/bug/{bugId}")
+    @ApiOperation(value = "Assign a developer to a bug")
+    public void assignBug(@PathParam("developerId") UUID developerId, @PathParam("bugId") UUID bugId) {
+        developerService.assignToBug(developerId, bugId);
     }
 }

@@ -3,6 +3,7 @@ package my.assignment.entity;
 import lombok.*;
 import my.assignment.entity.enumeration.StoryStatus;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -14,7 +15,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(exclude = "id")
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "STORY")
 public class StoryEntity {
 

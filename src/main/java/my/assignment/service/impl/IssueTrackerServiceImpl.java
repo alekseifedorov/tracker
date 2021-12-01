@@ -7,6 +7,7 @@ import my.assignment.entity.DeveloperEntity;
 import my.assignment.model.*;
 import my.assignment.repository.DeveloperRepository;
 import my.assignment.repository.StoryRepository;
+import my.assignment.service.ApplicationInitService;
 import my.assignment.service.CalculatorEngine;
 import my.assignment.service.IssueTrackerService;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,8 @@ public class IssueTrackerServiceImpl implements IssueTrackerService {
 
     private final DeveloperRepository developerRepository;
 
+    private final ApplicationInitService serv;
+
     // From spec: As long as no new stories are created, the distribution should remain the same.
     // It might be stored, for example, in Redis
     private Map<CalculationRequest, Plan> previousResults = new HashMap<>();
@@ -36,6 +39,8 @@ public class IssueTrackerServiceImpl implements IssueTrackerService {
     @Override
     @Transactional
     public Plan calculatePlan() {
+        cleanAssignments();
+
         var stories = mapperFacade.mapAsList(storyRepository.findAll(), Story.class);
         var developers = mapperFacade.mapAsList(developerRepository.findAll(), Developer.class);
 
@@ -52,13 +57,21 @@ public class IssueTrackerServiceImpl implements IssueTrackerService {
         return plan;
     }
 
+    private void cleanAssignments() {
+        storyRepository.findAll().forEach(story -> {
+            story.setDeveloper(null);
+            storyRepository.save(story);
+        });
+    }
+
     private void assignDevelopersToStories(Plan plan) {
         plan.getWeeks().forEach(week ->
                 week.getStories().stream()
                         .map(StoryPart::getStory)
                         .forEach(story -> {
                             var storyEntity = storyRepository.getById(story.getId());
-                            storyEntity.setDeveloper(DeveloperEntity.builder().id(story.getDeveloper().getId()).build());
+                            storyEntity
+                                    .setDeveloper(DeveloperEntity.builder().id(story.getDeveloper().getId()).build());
                             storyRepository.save(storyEntity);
                         })
         );

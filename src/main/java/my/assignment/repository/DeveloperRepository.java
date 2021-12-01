@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DeveloperRepository extends JpaRepository<DeveloperEntity, UUID> {
-    @Query("SELECT d FROM DeveloperEntity d JOIN FETCH d.stories")
+    @Query("SELECT DISTINCT d FROM DeveloperEntity d LEFT JOIN FETCH d.stories")
     List<DeveloperEntity> findAllWithStories();
 }

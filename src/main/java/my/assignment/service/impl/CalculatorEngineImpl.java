@@ -19,6 +19,7 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 
     @Override
     public Plan calculatePlan(CalculationRequest request) {
+        log.info("Calculating is starting...");
         if (CollectionUtils.isEmpty(request.getDevelopers()) || CollectionUtils.isEmpty(request.getStories())) {
             throw new IllegalArgumentException("List of stories or developers must not be empty");
         }

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import my.assignment.entity.DeveloperEntity;
 import my.assignment.model.Developer;
+import my.assignment.model.ShortDeveloper;
 import my.assignment.repository.BugRepository;
 import my.assignment.repository.DeveloperRepository;
 import my.assignment.repository.StoryRepository;
@@ -38,6 +39,15 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     public void deleteDeveloper(UUID id) {
+        storyRepository.findByDeveloperId(id).forEach(story -> {
+            story.setDeveloper(null);
+            storyRepository.save(story);
+        });
+        bugRepository.findByDeveloperId(id).forEach(bug -> {
+            bug.setDeveloper(null);
+            bugRepository.save(bug);
+        });
+
         developerRepository.deleteById(id);
     }
 
@@ -63,8 +73,8 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     @Transactional
-    public List<Developer> getAll() {
-        List<DeveloperEntity> allWithStories = developerRepository.findAllWithStories();
-        return mapperFacade.mapAsList(allWithStories, Developer.class);
+    public List<ShortDeveloper> getAll() {
+        List<DeveloperEntity> developers = developerRepository.findAllWithStories();
+        return mapperFacade.mapAsList(developers, ShortDeveloper.class);
     }
 }

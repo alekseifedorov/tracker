@@ -1,6 +1,5 @@
 package my.assignment.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -11,19 +10,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Data
-@EqualsAndHashCode(of = "id")
-public class Developer {
+public class ShortDeveloper {
     private UUID id;
 
     private String name;
 
     @Builder.Default
-    @JsonIgnore
-    private List<Story> stories = new ArrayList<>();
+    private List<ShortStory> stories = new ArrayList<>();
 
     @Builder.Default
-    @JsonIgnore
-    private List<Bug> bugs = new ArrayList<>();
+    private List<ShortBug> bugs = new ArrayList<>();
 
     private int points;
 }

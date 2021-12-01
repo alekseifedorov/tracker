@@ -2,6 +2,9 @@ package my.assignment.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import my.assignment.entity.enumeration.BugPriority;
+import my.assignment.entity.enumeration.BugStatus;
+import my.assignment.model.Bug;
 import my.assignment.model.Developer;
 import my.assignment.model.Story;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +19,7 @@ public class ApplicationInitService implements ApplicationListener<ApplicationRe
 
     private final DeveloperService developerService;
     private final StoryService storyService;
+    private final BugService bugService;
 
     @Value("${init-environment:false}")
     private boolean initEnvironment;
@@ -34,7 +38,7 @@ public class ApplicationInitService implements ApplicationListener<ApplicationRe
     }
 
     private void doInitData() {
-        developerService.createOrUpdateDeveloper(Developer.builder().name("John Doe").build());
+        var developer = developerService.createOrUpdateDeveloper(Developer.builder().name("John Doe").build());
         developerService.createOrUpdateDeveloper(Developer.builder().name("Bilbo Baggings").build());
 
         storyService.createOrUpdateStory(Story.builder()
@@ -54,5 +58,14 @@ public class ApplicationInitService implements ApplicationListener<ApplicationRe
                 .points(12)
                 .description("12 points story")
                 .build());
+
+        var bug = bugService.createOrUpdateBug(Bug.builder()
+                .title("Timeout exception with 504 status")
+                .description("Timeout exception with 504 status")
+                .status(BugStatus.NEW)
+                .priority(BugPriority.MAJOR)
+                .build());
+
+        developerService.assignToBug(developer.getId(), bug.getId());
     }
 }
