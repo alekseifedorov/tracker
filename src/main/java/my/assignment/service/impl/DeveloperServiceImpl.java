@@ -31,8 +31,16 @@ public class DeveloperServiceImpl implements DeveloperService {
     private final MapperFacade mapperFacade;
 
     @Override
+    @Transactional
     public Developer createOrUpdateDeveloper(Developer developer) {
-        var entity = mapperFacade.map(developer, DeveloperEntity.class);
+        DeveloperEntity entity = null;
+        if(developer.getId() != null) {
+            entity = developerRepository.getById(developer.getId());
+            mapperFacade.map(developer, entity);
+        } else {
+            entity = mapperFacade.map(developer, DeveloperEntity.class);
+        }
+
         var savedEntity = developerRepository.save(entity);
         return mapperFacade.map(savedEntity, Developer.class);
     }
